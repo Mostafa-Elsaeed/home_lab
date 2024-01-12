@@ -1,0 +1,193 @@
+version: "3"
+
+services:
+  adguardhome:
+    image: adguard/adguardhome
+    container_name: adguardhome
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 67:68/tcp
+      - 69:68/udp
+      - 853:853/tcp
+      - 88:80/tcp #change this to something like 81:80 if port 80 is already in use
+      - 3000:3000/tcp
+    volumes:
+      - /mnt/HDD/AppsData/AdGuard/opt/adguardhome/work:/opt/adguardhome/work
+      - /mnt/HDD/AppsData/AdGuard/opt/adguardhome/conf:/opt/adguardhome/conf
+    restart: unless-stopped
+    networks:
+      - home_network
+
+  nginx_proxy_manager:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: nginx-proxy-manager
+    restart: always
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/HDD/AppsData/nginx_proxy_manger/data:/data
+      - /mnt/HDD/AppsData/nginx_proxy_manger/etc/letsencrypt:/etc/letsencrypt
+    networks:
+      - home_network
+
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA_HOSTNAME=gitea.home.local
+    restart: always
+    volumes:
+      - /mnt/HDD/AppsData/gitea/data:/data
+    ports:
+      - "3020:3000"
+      - "2200:22"
+    networks:
+      - home_network
+
+  bazarr:
+    image: ghcr.io/linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+    volumes:
+      - /mnt/HDD/AppsData/Bazarr/config:/config
+      - /mnt/HDD/Media/Movies:/movies
+      - /mnt/HDD/Media/TvShows:/tv
+    ports:
+      - 6767:6767
+    restart: unless-stopped    
+    networks:
+      - home_network
+
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+      - UMASK_SET=022
+      - DELUGE_LOGLEVEL=info
+    ports:
+      - "8112:8112"
+      - "58846:58846"
+      - "58846:58846/udp"
+    volumes:
+      - /mnt/HDD/AppsData/deluge/config:/config
+      - /mnt/HDD/AppsData/deluge/downloads:/downloads
+      - /mnt/HDD/Media:/My_Media
+    restart: unless-stopped
+    networks:
+      - home_network
+
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+    volumes:
+      - /mnt/HDD/AppsData/jellyfin/config:/config
+      - /mnt/HDD/Media:/media
+    ports:
+      - 8096:8096
+    restart: always
+    networks:
+      - home_network
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Africa/Cairo
+    ports:
+      - 5055:5055
+    volumes:
+      - /mnt/HDD/AppsData/jellyseerr/configs:/app/config
+    restart: unless-stopped
+    networks:
+      - home_network
+
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+    volumes:
+      - /mnt/HDD/AppsData/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+    networks:
+      - home_network
+
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    ports:
+      - 7878:7878
+    volumes:
+      - /mnt/HDD/AppsData/radarr/config:/config
+      - /mnt/HDD/AppsData/deluge/downloads:/downloads
+      - /mnt/HDD/Media/Movies:/My_Movies
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+    networks:
+      - home_network
+
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    volumes:
+      - /mnt/HDD/AppsData/sonarr/config:/config
+      - /mnt/HDD/AppsData/deluge/downloads:/downloads
+      - /mnt/HDD/Media/TvShows:/My_Tv_Shows
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+    restart: unless-stopped
+    networks:
+      - home_network
+
+  syncthing:
+    image: syncthing/syncthing
+    container_name: syncthing
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - /mnt/HDD/AppsData/syncthing/data:/var/syncthing
+      - /mnt/HDD/Media:/Media
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    restart: unless-stopped
+    networks:
+      - home_network
+
+networks:
+  home_network:
+    external: true
