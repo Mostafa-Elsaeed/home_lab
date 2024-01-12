@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  deluge:
+    image: linuxserver/deluge
+    container_name: deluge
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Africa/Cairo
+      - UMASK_SET=022
+      - DELUGE_LOGLEVEL=info
+      - DELUGE_USER=walas
+      - DELUGE_WEBUI_PASS=Walasmst1544$$4$$
+    ports:
+      - "8112:8112"
+      - "58846:58846"
+      - "58846:58846/udp"
+    volumes:
+      - /mnt/HDD/AppsData/deluge/config:/config
+      - /mnt/HDD/AppsData/deluge/downloads:/downloads
+      - /mnt/HDD/Media:/My_Media
+    restart: unless-stopped
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true

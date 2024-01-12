@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    ports:
+      - 8085:80
+
+    volumes:
+      - /mnt/HDD/AppsData/nextcloud/var/www/html:/var/www/html
+      - /mnt/HDD/Media:/MediaStorage
+    environment:
+      - POSTGRES_HOST=$ip:5432
+      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=nextcloud
+      - POSTGRES_USER=$user
+    restart: always
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true
+
+volumes:
+  nextcloud:

@@ -1,0 +1,15 @@
+version: "3"
+services:
+  metube:
+    image: ghcr.io/alexta69/metube
+    container_name: metube_youtube
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    volumes:
+      - /mnt/HDD/AppsData/metube/downloads:/downloads
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true

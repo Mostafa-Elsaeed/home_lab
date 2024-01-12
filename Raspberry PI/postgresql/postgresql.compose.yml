@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgresql
+    image: postgres:15.4
+    restart: always
+    volumes:
+      - /mnt/HDD/AppsData/postgresql/var/lib/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: $User
+      POSTGRES_PASSWORD: $Password
+      POSTGRES_DB: master
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true

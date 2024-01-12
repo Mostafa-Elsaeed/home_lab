@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    environment:
+      - LOG_LEVEL=debug
+      - TZ=Africa/Cairo
+    ports:
+      - 5055:5055
+    volumes:
+      - /mnt/HDD/AppsData/jellyseerr/configs:/app/config
+    restart: unless-stopped
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true
