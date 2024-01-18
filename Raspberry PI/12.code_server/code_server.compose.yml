@@ -1,0 +1,27 @@
+---
+version: "2.1"
+services:
+  code-server:
+    image: lscr.io/linuxserver/code-server:latest
+    container_name: code-server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD=Walasmst1544$4$ #optional
+      - HASHED_PASSWORD= #optional
+      - SUDO_PASSWORD=Walasmst1544$4$ #optional
+      - SUDO_PASSWORD_HASH= #optional
+      # - PROXY_DOMAIN=code-server.my.domain #optional
+      - DEFAULT_WORKSPACE=/HDD #optional
+    volumes:
+      - /mnt/HDD/AppsData/vscode/config:/config
+      - /mnt/HDD:/HDD
+    ports:
+      - 8443:8443
+    restart: unless-stopped
+    networks:
+      - home_network
+networks:
+  home_network:
+    external: true
