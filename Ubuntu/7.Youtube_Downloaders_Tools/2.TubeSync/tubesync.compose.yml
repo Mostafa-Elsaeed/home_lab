@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  tubesync:
+    image: ghcr.io/meeb/tubesync:latest
+    container_name: tubesync
+    restart: unless-stopped
+    ports:
+      - 4848:4848
+    volumes:
+      - /mnt/HDD/AppsData/tubesync/config:/config
+      - /mnt/HDD/AppsData/tubesync/downloads:/downloads
+    environment:
+      - TZ=Africa/Cairo
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true

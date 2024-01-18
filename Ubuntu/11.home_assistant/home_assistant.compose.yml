@@ -1,0 +1,17 @@
+version: "3.8"  # Specify a compatible Docker Compose version
+
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    restart: always
+    volumes:
+      - /mnt/HDD/AppsData/home_assistant/config:/config
+      - /mnt/HDD/Media:/media
+      # - /PATH_TO_YOUR_USB_STICK:/dev/usbstick  # Assuming the USB stick is accessible at /dev/usbstick
+    environment:
+      - TZ=Africa/Cairo
+    network_mode: host
+networks:
+  main_network:
+    external: true

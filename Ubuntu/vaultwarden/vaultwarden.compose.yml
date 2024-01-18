@@ -1,0 +1,43 @@
+version: "3"
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    volumes:
+      - $LOCAL_PATH:/data
+      #- /mnt/AppsData/cloudcodes.uk/private.key:/ssl/cert.pem  # Update this path
+      #- /mnt/AppsData/cloudcodes.uk/origin.pem:/ssl/key.pem    # Update this path
+    ports:
+      - 7777:80
+      - 3012:3012
+      - 587:587  # ESMTP (explicit TLS => STARTTLS)
+    restart: always
+    environment:
+      - DOMAIN=https://vault.cloudcodes.uk
+      - DATABASE_URL=postgresql://walas:Walasmst1544$4$@192.168.1.100:5432/vaultwarden
+      - WEBSOCKET_ENABLED=true
+      - SIGNUPS_ALLOWED=true
+      - ADMIN_TOKEN='7E8nPcHShzrWS2XNkKcv2QJV4MX3zA9cxk4reGXr'
+      - TZ=Africa/Cairo
+      
+      - SMTP_SECURITY=starttls
+      - SMTP_HOST=live.smtp.mailtrap.io
+      
+      - SMTP_PORT=587
+      - SMTP_FROM=walas@cloudcodes.uk
+      - SMTP_USERNAME=api
+      - SMTP_PASSWORD=726c9065f7197fce8c54b42866ec86f0
+    networks:
+      - main_network
+networks:
+  main_network:
+    external: true
+
+    # - MAIL_HOST=smtp.mailtrap.io
+    #   - MAIL_PORT=587
+    #   - MAIL_FROM=mostafa.elsaeed@nweave.com
+    #   - MAIL_USERNAME=mostafa.elsaeed@nweave.com
+    #   - MAIL_PASSWORD=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
+    #   - MAIL_ENCRYPTION=null
+    #   - MAIL_FROM_NAME=Mostafa
+    #   - MAIL_FROM_ADDRESS=mostafa.elsaeed@nweave.com

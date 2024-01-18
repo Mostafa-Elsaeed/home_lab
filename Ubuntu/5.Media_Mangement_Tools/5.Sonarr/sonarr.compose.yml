@@ -1,0 +1,22 @@
+version: '3'
+services:
+ sonarr:
+  image: linuxserver/sonarr
+  container_name: sonarr
+  ports:
+   - 8989:8989
+  volumes:
+    - /mnt/HDD/AppsData/sonarr/config:/config
+    - /mnt/HDD/AppsData/deluge/downloads:/downloads
+    - /mnt/HDD/Media/TvShows:/My_Tv_Shows
+  environment:
+   - PUID=1000
+   - PGID=1000
+   - TZ=Africa/Cairo
+  restart: unless-stopped
+  networks:
+      - main_network
+networks:
+  main_network:
+    external: true
+  

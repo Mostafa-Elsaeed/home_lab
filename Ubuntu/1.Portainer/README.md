@@ -1,0 +1,1 @@
+sudo docker pull portainer/portainer-ce:linux-arm

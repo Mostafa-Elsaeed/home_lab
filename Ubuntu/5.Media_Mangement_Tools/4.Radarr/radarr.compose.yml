@@ -1,0 +1,21 @@
+version: '3'
+services:
+ radarr:
+  image: linuxserver/radarr
+  container_name: radarr
+  restart: unless-stopped
+  ports:
+   - 7878:7878
+  volumes:
+    - /mnt/HDD/AppsData/radarr/config:/config
+    - /mnt/HDD/AppsData/deluge/downloads:/downloads
+    - /mnt/HDD/Media/Movies:/My_Movies
+  environment:
+   - PUID=1000
+   - PGID=1000
+   - TZ=Africa/Cairo
+  networks:
+      - main_network
+networks:
+  main_network:
+    external: true
