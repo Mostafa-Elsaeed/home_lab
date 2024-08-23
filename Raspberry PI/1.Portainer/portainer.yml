@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   portainer:
@@ -9,11 +9,10 @@ services:
       - 9000:9000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/HDD/AppsData/portianer/data:/data
+      - /mnt/HDD/AppsData/portainer/data:/data
     networks:
       - main_network
+
 networks:
   main_network:
     external: true
-volumes:
-  portainer_data:
