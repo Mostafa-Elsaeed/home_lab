@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: linuxserver/prowlarr:arm64v8-latest
     container_name: prowlarr
     environment:
       - PUID=1000
@@ -17,4 +17,3 @@ services:
 networks:
   main_network:
     external: true
-    

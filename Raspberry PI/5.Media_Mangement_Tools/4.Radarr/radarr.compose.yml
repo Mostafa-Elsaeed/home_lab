@@ -1,7 +1,7 @@
 version: '3'
 services:
  radarr:
-  image: linuxserver/radarr
+  image: linuxserver/radarr:arm64v8-latest
   container_name: radarr
   restart: unless-stopped
   ports:

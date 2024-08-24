@@ -1,7 +1,7 @@
 version: "2.1"
 services:
   bazarr:
-    image: ghcr.io/linuxserver/bazarr
+    image: linuxserver/bazarr:arm64v8-latest
     container_name: bazarr
     environment:
       - PUID=1000
@@ -11,7 +11,7 @@ services:
       - /mnt/HDD/AppsData/Bazarr/config:/config
       - /mnt/HDD/Media/Movies:/movies
       - /mnt/HDD/Media/TvShows:/tv
-    restart: unless-stopped    
+    restart: unless-stopped
     ports:
       - 6767:6767
     networks:

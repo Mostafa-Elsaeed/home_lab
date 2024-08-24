@@ -1,8 +1,8 @@
-version: '3'
+version: "3"
 
 services:
   deluge:
-    image: linuxserver/deluge
+    image: linuxserver/deluge:arm64v8-latest
     container_name: deluge
     environment:
       - PUID=1000

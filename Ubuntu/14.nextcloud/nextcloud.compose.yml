@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  redis:
+    image: "bitnami/redis:latest"
+    container_name: nextcloud-redis
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - main_network
+    restart: unless-stopped
+  app:
+    image: nextcloud:latest
+    container_name: nextcloud-app
+    networks:
+      - main_network
+    ports:
+      - 8039:80
+
+    volumes:
+      - /mnt/HDD/AppsData/nextcloud_redis:/var/www/html
+      - /mnt/HDD:/Storage
+
+    environment:
+      - NEXTCLOUD_TRUSTED_DOMAINS=nextcloud.home.local,192.168.1.201
+      - REDIS_HOST=redis
+      - PUID=1000
+      - PGID=1000
+    restart: unless-stopped
+
+networks:
+  main_network:
+    external: true
